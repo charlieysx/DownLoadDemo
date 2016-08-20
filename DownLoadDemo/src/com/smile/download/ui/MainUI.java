@@ -31,7 +31,8 @@ public class MainUI extends JFrame implements UpdateUi {
 	private DownLoad downLoad;
 	private int length = 0;;
 	private int value = 0;
-//	private long time;
+
+	// private long time;
 
 	/**
 	 * Create the frame.
@@ -66,27 +67,29 @@ public class MainUI extends JFrame implements UpdateUi {
 		btn_Start.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				if (btn_Start.isEnabled()) {
+					value = 0;
+					// time = System.currentTimeMillis();
+
+					// 测试
+					// 下载酷狗音乐
+					downLoad.startDownLoad(new FileInfo(0,
+							"http://download.kugou.com/download/kugou_pc",
+							"kugou windows版V 8090.exe", 0));
+
+					// 下载本地的视频
+					// downLoad.startDownLoad(new FileInfo(0,
+					// "http://127.0.0.1:8181/img/mooc_video.mp4",
+					// "mooc_video.mp4", 0));
+					//
+					// 下载图片
+					// downLoad.startDownLoad(new FileInfo(
+					// 0,
+					// "http://5.1015600.com/picture/pic/000/381/788997d733dc9a8edb07b8d094b0a064.jpg",
+					// "788997d733dc9a8edb07b8d094b0a064.jpg", 0));
+				}
 				btn_Stop.setEnabled(true);
 				btn_Start.setEnabled(false);
-				value = 0;
-//				time = System.currentTimeMillis();
-				
-				// 测试
-				// 下载酷狗音乐
-//				downLoad.startDownLoad(new FileInfo(0,
-//						"http://download.kugou.com/download/kugou_pc",
-//						"kugou windows版V 8090.exe", 0));
-
-				// 下载本地的视频
-				downLoad.startDownLoad(new FileInfo(0,
-						"http://127.0.0.1:8181/img/mooc_video.mp4",
-						"mooc_video.mp4", 0));
-				//
-				// 下载图片
-				// downLoad.startDownLoad(new FileInfo(
-				// 0,
-				// "http://5.1015600.com/picture/pic/000/381/788997d733dc9a8edb07b8d094b0a064.jpg",
-				// "788997d733dc9a8edb07b8d094b0a064.jpg", 0));
 
 			}
 		});
@@ -100,9 +103,11 @@ public class MainUI extends JFrame implements UpdateUi {
 		btn_Stop.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				if (btn_Stop.isEnabled()) {
+					downLoad.stopDownLoad();
+				}
 				btn_Stop.setEnabled(false);
 				btn_Start.setEnabled(true);
-				downLoad.stopDownLoad();
 			}
 		});
 
@@ -122,14 +127,14 @@ public class MainUI extends JFrame implements UpdateUi {
 	}
 
 	int how = 0;
-	
+
 	@Override
 	public void updateProgress(int len) {
 		synchronized (this) {
-//			how++;
-//			if(how == 1){
-//				System.out.println(System.currentTimeMillis() - time);
-//			}
+			// how++;
+			// if(how == 1){
+			// System.out.println(System.currentTimeMillis() - time);
+			// }
 			value += len;
 			float now = (float) (value * 1.0 / 1024 / 1024);
 			float all = (float) (length * 1.0 / 1024 / 1024);
@@ -141,7 +146,7 @@ public class MainUI extends JFrame implements UpdateUi {
 			if (p == 100) {
 				jl_FileName.setText(jl_FileName.getText().replace("正在下载",
 						"下载完成"));
-//				System.out.println(System.currentTimeMillis() - time);
+				// System.out.println(System.currentTimeMillis() - time);
 				btn_Stop.setEnabled(false);
 				btn_Start.setEnabled(false);
 			}
